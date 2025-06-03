@@ -1,7 +1,9 @@
 package com.example.charlistservice.Models;
 
+import lombok.Data;
 
+@Data
 public class HitDice {
-    public int dice;
-    public int ammount;
+    private int dice;
+    private int ammount;
 }

@@ -1,8 +1,10 @@
 package com.example.charlistservice.Services;
 
+import com.example.charlistservice.Models.CharacterList;
 import org.springframework.http.ResponseEntity;
 
 public interface CharacterListService {
 
-    ResponseEntity<?> createCharacter(Character character);
+    ResponseEntity<?> createCharacter(CharacterList character);
+    ResponseEntity<?> getCharactersByUser(String userId);
 }

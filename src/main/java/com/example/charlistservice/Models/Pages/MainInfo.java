@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class MainInfo {
-    public String characterName;
-    public String characterClass;
-    public short characterLevel;
+    private String characterName;
+    private String characterClass;
+    private String characterRace;
+    private short characterLevel;
 }
