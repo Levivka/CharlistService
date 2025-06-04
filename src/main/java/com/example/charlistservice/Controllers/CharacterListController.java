@@ -1,13 +1,10 @@
 package com.example.charlistservice.Controllers;
 
 import com.example.charlistservice.Models.CharacterList;
-import com.example.charlistservice.Models.DTO.CharacterListResponseDto;
 import com.example.charlistservice.Services.CharacterListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +17,13 @@ public class CharacterListController {
         return characterListService.createCharacter(character);
     }
 
-    @GetMapping
-    public ResponseEntity<?> getCharacters(@RequestParam String userId) {
+    @GetMapping("/user")
+    public ResponseEntity<?> getCharactersMainInfo(@RequestParam String userId) {
         return characterListService.getCharactersByUser(userId);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getFullCharacters(@RequestParam String userId) {
+        return characterListService.getFullCharactersByUser(userId);
     }
 }

@@ -7,4 +7,5 @@ public interface CharacterListService {
 
     ResponseEntity<?> createCharacter(CharacterList character);
     ResponseEntity<?> getCharactersByUser(String userId);
+    ResponseEntity<?> getFullCharactersByUser(String userId);
 }

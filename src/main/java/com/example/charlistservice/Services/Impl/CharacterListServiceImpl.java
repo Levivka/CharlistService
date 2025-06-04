@@ -28,6 +28,13 @@ public class CharacterListServiceImpl implements CharacterListService {
                 .collect(Collectors.toList()));
     }
 
+    @Override
+    public ResponseEntity<?> getFullCharactersByUser(String userId) {
+        List<CharacterList> characters = characterRepository.findByUserId(userId);
+        return ResponseEntity.ok(characters);
+    }
+
+
     private CharacterListResponseDto convertToDto(CharacterList character) {
         CharacterListResponseDto dto = new CharacterListResponseDto();
         dto.setId(character.getId());
