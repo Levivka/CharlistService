@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface CharacterListRepository extends MongoRepository<CharacterList, String> {
     List<CharacterList> findByUserId(String userId);
+    CharacterList findByUserIdAndBasicInfo_CharacterName(String userId, String characterName);
 }

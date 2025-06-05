@@ -26,4 +26,9 @@ public class CharacterListController {
     public ResponseEntity<?> getFullCharacters(@RequestParam String userId) {
         return characterListService.getFullCharactersByUser(userId);
     }
+
+    @GetMapping("/user/character")
+    public ResponseEntity<?> getFullCharacterByName(@RequestParam String userId, @RequestParam String characterName) {
+        return characterListService.getFullCharacterByName(userId, characterName);
+    }
 }

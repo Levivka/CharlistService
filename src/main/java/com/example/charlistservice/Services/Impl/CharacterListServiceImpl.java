@@ -34,6 +34,12 @@ public class CharacterListServiceImpl implements CharacterListService {
         return ResponseEntity.ok(characters);
     }
 
+    @Override
+    public ResponseEntity<?> getFullCharacterByName(String userId, String characterName) {
+        CharacterList characters = characterRepository.findByUserIdAndBasicInfo_CharacterName(userId, characterName);
+        return ResponseEntity.ok(characters);
+    }
+
 
     private CharacterListResponseDto convertToDto(CharacterList character) {
         CharacterListResponseDto dto = new CharacterListResponseDto();
