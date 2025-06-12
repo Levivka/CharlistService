@@ -8,4 +8,7 @@ public class MainInfo {
     private String characterClass;
     private String characterRace;
     private short characterLevel;
+    private int experience;
+    private String background;
+    private String alignment;
 }

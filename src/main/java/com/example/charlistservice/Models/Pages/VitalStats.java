@@ -12,6 +12,8 @@ public class VitalStats {
     private int temporaryHitPoints;
     private HitDice hitDice;
     private DeathSaves deathSaves;
+    private int maxHitPoints;
+    private int initiative;
 
     @Data
     public static class DeathSaves {

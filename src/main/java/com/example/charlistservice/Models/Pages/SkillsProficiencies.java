@@ -8,6 +8,7 @@ import java.util.List;
 public class SkillsProficiencies {
     private List<Skill> skills;
     private int proficiencyBonus;
+    private List<String> languages;
 
     @Data
     public static class Skill {

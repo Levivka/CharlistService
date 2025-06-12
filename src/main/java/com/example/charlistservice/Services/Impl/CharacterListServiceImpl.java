@@ -47,6 +47,9 @@ public class CharacterListServiceImpl implements CharacterListService {
         dto.setName(character.getBasicInfo().getCharacterName());
         dto.setLevel(character.getBasicInfo().getCharacterLevel());
         dto.setRace(character.getBasicInfo().getCharacterRace());
+        dto.setAlignment(character.getBasicInfo().getAlignment());
+        dto.setExperience(character.getBasicInfo().getExperience());
+        dto.setBackground(character.getBasicInfo().getBackground());
         return dto;
     }
 }

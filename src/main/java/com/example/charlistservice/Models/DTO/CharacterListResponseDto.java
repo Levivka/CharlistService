@@ -8,4 +8,7 @@ public class CharacterListResponseDto {
     private String name;
     private int level;
     private String race;
+    private String alignment;
+    private Integer experience;
+    private String background;
 }

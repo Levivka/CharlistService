@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "characters")
@@ -25,4 +26,7 @@ public class CharacterList {
     private List<CharacterSpells> spells;
 
     private SubInfo subInfo;
+
+    private Date createdAt;
+    private Date lastUpdated;
 }
