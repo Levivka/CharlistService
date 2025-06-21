@@ -4,6 +4,9 @@ package com.example.charlistservice.Repositories;
 import com.example.charlistservice.Models.CharacterList;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
 
 import java.util.List;
 

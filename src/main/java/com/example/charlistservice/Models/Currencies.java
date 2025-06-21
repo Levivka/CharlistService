@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Currencies {
     private String currency;
-    private short ammount;
+    private short amount;
 }

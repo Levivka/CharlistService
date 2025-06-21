@@ -4,10 +4,17 @@ import com.example.charlistservice.Models.SpellModifiers;
 import com.example.charlistservice.Models.Spells;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class CharacterSpells {
-    public SpellModifiers spellModifiers;
-    public List<Spells> spell;
+    private SpellModifiers spellModifiers = new SpellModifiers();
+    private List<Spells> spell;
+
+    public CharacterSpells() {
+        this.spellModifiers = new SpellModifiers();
+        this.spell = new ArrayList<>();
+    }
 }
