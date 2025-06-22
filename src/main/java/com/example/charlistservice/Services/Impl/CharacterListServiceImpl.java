@@ -20,6 +20,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -143,50 +144,51 @@ public class CharacterListServiceImpl implements CharacterListService {
         }
     }
 
-    // В CharacterListServiceImpl.java
     @Override
     public ResponseEntity<?> updateBasicInfo(String characterId, Map<String, Object> basicInfo) {
         try {
             Query query = new Query(Criteria.where("id").is(characterId));
             Update update = new Update();
 
-            log.debug("Processing basic info update: {}", basicInfo);
+            // Подготовка валидированных данных
+            Map<String, Object> validatedBasicInfo = new HashMap<>();
 
-            // Обновляем все поля базовой информации
-            basicInfo.forEach((key, value) -> {
-                String fullPath = "basicInfo." + key;
-                // Преобразуем числовые значения в нужный формат
-                if (key.equals("characterLevel")) {
-                    update.set(fullPath, ((Number) value).shortValue());
-                } else if (key.equals("experience")) {
-                    update.set(fullPath, ((Number) value).intValue());
-                } else {
-                    update.set(fullPath, value);
-                }
-            });
+            // Обработка каждого поля с проверкой типа
+            validatedBasicInfo.put("characterName", basicInfo.get("characterName").toString());
+            validatedBasicInfo.put("characterClass", basicInfo.get("characterClass").toString());
+            validatedBasicInfo.put("characterRace", basicInfo.get("characterRace").toString());
+            validatedBasicInfo.put("characterLevel", ((Number) basicInfo.get("characterLevel")).intValue());
 
-            // Обновляем дату последнего изменения
+            // Обработка опциональных полей
+            if (basicInfo.containsKey("experience")) {
+                validatedBasicInfo.put("experience", ((Number) basicInfo.get("experience")).intValue());
+            }
+            if (basicInfo.containsKey("background")) {
+                validatedBasicInfo.put("background", basicInfo.get("background").toString());
+            }
+            if (basicInfo.containsKey("alignment")) {
+                validatedBasicInfo.put("alignment", basicInfo.get("alignment").toString());
+            }
+
+            // Полное обновление объекта basicInfo
+            update.set("basicInfo", validatedBasicInfo);
             update.set("lastUpdated", LocalDateTime.now());
 
             UpdateResult result = mongoTemplate.updateFirst(query, update, CharacterList.class);
 
-            if (result.getModifiedCount() > 0) {
-                log.info("Successfully updated basic info for character {}", characterId);
-                return ResponseEntity.ok().build();
-            } else {
-                CharacterList character = mongoTemplate.findOne(query, CharacterList.class);
-                if (character == null) {
-                    log.warn("Character {} not found", characterId);
-                    return ResponseEntity.notFound().build();
-                } else {
-                    log.info("No changes made for character {}", characterId);
-                    return ResponseEntity.ok().build();
-                }
+            if (result.getModifiedCount() == 0) {
+                return ResponseEntity.notFound().build();
             }
+
+            return ResponseEntity.ok().build();
+        } catch (ClassCastException e) {
+            log.error("Type conversion error: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Invalid data types in request"));
         } catch (Exception e) {
-            log.error("Error updating basic info: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", e.getMessage()));
+            log.error("Update error: {}", e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", "Failed to update character"));
         }
     }
 

@@ -42,15 +42,30 @@ public class CharacterListController {
             @RequestBody Map<String, Object> request) {
         try {
             log.info("Updating basic info for character: {}", characterId);
-            log.debug("Received data: {}", request);
+            log.info("data: {}", request);
+
+
+            if (!request.containsKey("basicInfo")) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Missing 'basicInfo' in request"));
+            }
 
             @SuppressWarnings("unchecked")
             Map<String, Object> basicInfo = (Map<String, Object>) request.get("basicInfo");
 
+            // Валидация обязательных полей
+            if (!basicInfo.containsKey("characterName") ||
+                    !basicInfo.containsKey("characterClass") ||
+                    !basicInfo.containsKey("characterRace") ||
+                    !basicInfo.containsKey("characterLevel")) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Missing required fields in basicInfo"));
+            }
+
             return characterListService.updateBasicInfo(characterId, basicInfo);
         } catch (Exception e) {
-            log.error("Error updating basic info for character {}: {}", characterId, e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            log.error("Error updating basic info: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError()
                     .body(Map.of("error", e.getMessage()));
         }
     }
